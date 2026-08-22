@@ -18,7 +18,7 @@ UI pública y el panel admin nunca puedan divergir en la regla (Constitución, P
 
 **Language/Version**: TypeScript 5.x (strict mode) sobre Node.js 18+
 
-**Primary Dependencies**: Next.js 14+ (App Router, Server Actions), `@supabase/ssr` +
+**Primary Dependencies**: Next.js 14+ (instalado: 16.3.2 — App Router, Server Actions), `@supabase/ssr` +
 `@supabase/supabase-js`, Tailwind CSS, shadcn/ui, Lucide Icons, `date-fns` (o `Intl` nativo)
 para formateo de fechas.
 
@@ -55,7 +55,7 @@ dependencias que requieran plan pago; `SUPABASE_SERVICE_ROLE_KEY` nunca expuesta
 | III. Seguridad por defecto (RLS) | RLS habilitado en `events`; lectura pública, escritura solo `authenticated`; `SUPABASE_SERVICE_ROLE_KEY` restringida a scripts de servidor/seed, nunca a componentes cliente. | PASS |
 | IV. Arquitectura server-first tipada | Server Components por defecto; Client Components solo para countdown, calendario interactivo y formularios; TypeScript strict en todo `/app`, `/lib`, `/components`. | PASS |
 | V. Simplicidad y fidelidad al spec | Alcance limitado a lo descrito en `spec.md` (001); no se agregan roles, campos ni categorías fuera de las 6 fijas. | PASS |
-| VI. Identidad editorial, no estética tech | Paleta y tipografía definidas en `lib/theme.ts`/`tailwind.config.ts` a partir de `public/brand/` + colores fijos por departamento; shadcn/ui re-temado (no se usa su look por defecto); color siempre acompañado de texto (FR-019). | PASS (colores de General/Deportes quedan pendientes de los archivos de logo — no bloquea el resto del plan) |
+| VI. Identidad editorial, no estética tech | Paleta y tipografía definidas en `lib/theme.ts` + `app/globals.css` (Tailwind v4 CSS-first) a partir de `public/brand/` + colores fijos por departamento; shadcn/ui re-temado (no se usa su look por defecto); color siempre acompañado de texto (FR-019). | PASS |
 
 Sin violaciones. No se requiere la tabla de Complexity Tracking.
 
@@ -89,7 +89,8 @@ app/
 │   └── dashboard/
 │       ├── page.tsx             # Lista de eventos + acciones CRUD
 │       └── actions.ts           # Server Actions: createEvent/updateEvent/deleteEvent
-├── middleware.ts                # Protege /admin/* redirigiendo a /admin/login sin sesión
+├── proxy.ts                     # Protege /admin/* redirigiendo a /admin/login sin sesión
+                                  # (convención Next.js 16; reemplaza a middleware.ts)
 
 lib/
 ├── supabase/

@@ -58,7 +58,7 @@ signOut(): Promise<void>
 `signIn` con credenciales inválidas devuelve un `error` genérico ("Credenciales inválidas"),
 sin distinguir si el correo existe (FR-012, acceptance scenario de User Story 2).
 
-## Middleware contract (`middleware.ts`)
+## Middleware contract (`proxy.ts` — convención Next.js 16, antes `middleware.ts`)
 
 - Intercepta cualquier ruta bajo `/admin` excepto `/admin/login`.
 - Si no hay sesión Supabase válida en las cookies de la petición → `redirect("/admin/login")`.

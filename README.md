@@ -33,17 +33,19 @@ Flujo seguido (Spec Kit, vía skills de Claude Code en `.claude/skills/`):
    [specs/001-nexos-agenda/plan.md](specs/001-nexos-agenda/plan.md))
 4. `/speckit-tasks` — desglosa el plan en tareas ejecutables (ver
    [specs/001-nexos-agenda/tasks.md](specs/001-nexos-agenda/tasks.md))
-5. `/speckit-implement` — ejecuta las tareas y genera el código (pendiente — no se ha
-   ejecutado todavía)
+5. `/speckit-implement` — ejecuta las tareas y genera el código (hecho — ver "Estado actual")
 
 Cualquier cambio de alcance o de regla de negocio se hace primero en el spec/constitución
 correspondiente, no directamente en el código (Constitución, Principio V).
 
 ## Stack (100% free tier)
 
-- **Framework**: Next.js 14+ (App Router, Server Actions)
-- **UI**: Tailwind CSS + shadcn/ui + Lucide Icons
+- **Framework**: Next.js 16 (App Router, Server Actions, Turbopack)
+- **UI**: Tailwind CSS v4 (CSS-first, sin `tailwind.config.ts`) + shadcn/ui re-tematizado +
+  Lucide Icons + tipografía editorial (Playfair Display + Source Sans 3, vía
+  `next/font/google`)
 - **Datos y auth**: Supabase (PostgreSQL + Supabase Auth + RLS)
+- **Testing**: Vitest (unidad) + Playwright (E2E)
 - **Hosting**: Vercel (app) + Supabase Cloud (datos/auth)
 
 Detalle completo de decisiones técnicas en
@@ -51,12 +53,37 @@ Detalle completo de decisiones técnicas en
 
 ## Estado actual
 
-- [x] Constitución del proyecto
+- [x] Constitución del proyecto (v1.1.0 — incluye identidad editorial, Principio VI)
 - [x] Spec de la feature `001-nexos-agenda` (vista pública + panel admin)
 - [x] Plan técnico, modelo de datos, contratos y guía de quickstart
 - [x] Desglose en tareas (`tasks.md`)
-- [ ] Implementación (`/speckit-implement`) — próximo paso
-- [ ] Despliegue a Vercel + Supabase
+- [x] Implementación (`/speckit-implement`) — código de la vista pública y el panel admin
+      generado; build, lint, type-check y pruebas unitarias en verde
+- [ ] Aplicar `supabase/schema.sql` a un proyecto Supabase real (tarea T010 — requiere una
+      cuenta Supabase, ver Setup local)
+- [ ] Despliegue a Vercel + Supabase (tarea T042)
 
-Ver [specs/001-nexos-agenda/quickstart.md](specs/001-nexos-agenda/quickstart.md) para los
-pasos de setup local una vez exista código.
+## Setup local
+
+```bash
+npm install
+cp .env.example .env.local
+```
+
+Completa `.env.local` con las credenciales de un proyecto Supabase real (gratis en
+[supabase.com](https://supabase.com)), y aplica [supabase/schema.sql](supabase/schema.sql)
+desde el SQL Editor del dashboard. Luego crea las 6 cuentas directivas siguiendo
+[scripts/seed-directors.md](scripts/seed-directors.md).
+
+```bash
+npm run dev          # http://localhost:3000
+npm run lint
+npm test              # Vitest
+npm run test:e2e      # Playwright (requiere el dev server y datos de prueba)
+npm run build
+```
+
+Sin credenciales reales de Supabase, `/admin/login` renderiza correctamente pero `/`
+mostrará un error al intentar cargar actividades — es el comportamiento esperado, no un bug
+(ver [quickstart.md](specs/001-nexos-agenda/quickstart.md) para los escenarios completos de
+validación).

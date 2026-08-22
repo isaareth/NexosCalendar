@@ -1,0 +1,138 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-source-sans);
+  --font-heading: var(--font-playfair);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* Paleta editorial NEXOS (Constitución, Principio VI) — no oklch(1 0 0)/gris frío de
+     dashboard. Colores de categoría/género viven en lib/theme.ts; estos son los tokens de
+     UI general (fondo, texto, componentes shadcn/ui). */
+  --background: #faf6ee;
+  --foreground: #221f1b;
+  --card: #fffdf8;
+  --card-foreground: #221f1b;
+  --popover: #fffdf8;
+  --popover-foreground: #221f1b;
+  --primary: #234090; /* NEXOS navy — logo-nexos.jpg */
+  --primary-foreground: #fffdf8;
+  --secondary: #f0e9da;
+  --secondary-foreground: #221f1b;
+  --muted: #efe7d8;
+  --muted-foreground: #6b6255;
+  --accent: #2dd4bf; /* turquesa del acento del logo oficial */
+  --accent-foreground: #08302c;
+  --destructive: #dc2626;
+  --border: #e4dcc9;
+  --input: #e4dcc9;
+  --ring: #234090;
+  --chart-1: #234090;
+  --chart-2: #73528e;
+  --chart-3: #16a34a;
+  --chart-4: #9333ea;
+  --chart-5: #dc2626;
+  --radius: 0.85rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: #1c1a16;
+  --foreground: #f5efe2;
+  --card: #262218;
+  --card-foreground: #f5efe2;
+  --popover: #262218;
+  --popover-foreground: #f5efe2;
+  --primary: #7d94d1;
+  --primary-foreground: #1c1a16;
+  --secondary: #322c22;
+  --secondary-foreground: #f5efe2;
+  --muted: #322c22;
+  --muted-foreground: #b7ab93;
+  --accent: #2dd4bf;
+  --accent-foreground: #08302c;
+  --destructive: #f87171;
+  --border: rgba(245, 239, 226, 0.14);
+  --input: rgba(245, 239, 226, 0.16);
+  --ring: #7d94d1;
+  --chart-1: #7d94d1;
+  --chart-2: #c4a6f0;
+  --chart-3: #4ade80;
+  --chart-4: #c084fc;
+  --chart-5: #f87171;
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading;
+  }
+}
