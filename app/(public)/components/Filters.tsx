@@ -12,6 +12,23 @@ import { CATEGORY_ORDER, categoryLabel, genderAppliesTo, isCategory } from "@/li
 
 const ALL = "__all__";
 
+const CATEGORY_ITEMS: Record<string, string> = {
+  [ALL]: "Todas las categorías",
+  ...Object.fromEntries(CATEGORY_ORDER.map((cat) => [cat, categoryLabel(cat)])),
+};
+
+const GENDER_ITEMS: Record<string, string> = {
+  [ALL]: "Todos",
+  masculino: "Masculino",
+  femenino: "Femenino",
+};
+
+const CHARACTER_ITEMS: Record<string, string> = {
+  [ALL]: "Obligatorio y voluntario",
+  obligatorio: "Obligatorio",
+  voluntario: "Voluntario",
+};
+
 /**
  * Filtros de categoría/género/carácter. El género solo se habilita para Fútbol (FR-005) —
  * la condición se lee de lib/categories.ts, nunca se redefine aquí (Principio II).
@@ -41,44 +58,74 @@ export function Filters() {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
-      <Select value={category ?? ALL} onValueChange={(v) => updateParam("category", v as string)}>
-        <SelectTrigger aria-label="Filtrar por categoría">
-          <SelectValue placeholder="Categoría" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value={ALL}>Todas las categorías</SelectItem>
-          {CATEGORY_ORDER.map((cat) => (
-            <SelectItem key={cat} value={cat}>
-              {categoryLabel(cat)}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-
-      {showGender && (
-        <Select value={gender ?? ALL} onValueChange={(v) => updateParam("gender", v as string)}>
-          <SelectTrigger aria-label="Filtrar por género">
-            <SelectValue placeholder="Género" />
+    <div className="flex flex-wrap items-end gap-3">
+      <div className="flex flex-col gap-1">
+        <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          Categoría
+        </span>
+        <Select
+          items={CATEGORY_ITEMS}
+          value={category ?? ALL}
+          onValueChange={(v) => updateParam("category", v as string)}
+        >
+          <SelectTrigger aria-label="Filtrar por categoría" className="min-w-44">
+            <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={ALL}>Todos</SelectItem>
-            <SelectItem value="masculino">Masculino</SelectItem>
-            <SelectItem value="femenino">Femenino</SelectItem>
+            {Object.entries(CATEGORY_ITEMS).map(([value, label]) => (
+              <SelectItem key={value} value={value}>
+                {label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
+      </div>
+
+      {showGender && (
+        <div className="flex flex-col gap-1">
+          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            Género
+          </span>
+          <Select
+            items={GENDER_ITEMS}
+            value={gender ?? ALL}
+            onValueChange={(v) => updateParam("gender", v as string)}
+          >
+            <SelectTrigger aria-label="Filtrar por género" className="min-w-32">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(GENDER_ITEMS).map(([value, label]) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       )}
 
-      <Select value={character ?? ALL} onValueChange={(v) => updateParam("character", v as string)}>
-        <SelectTrigger aria-label="Filtrar por carácter">
-          <SelectValue placeholder="Carácter" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value={ALL}>Obligatorio y voluntario</SelectItem>
-          <SelectItem value="obligatorio">Obligatorio</SelectItem>
-          <SelectItem value="voluntario">Voluntario</SelectItem>
-        </SelectContent>
-      </Select>
+      <div className="flex flex-col gap-1">
+        <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          Carácter
+        </span>
+        <Select
+          items={CHARACTER_ITEMS}
+          value={character ?? ALL}
+          onValueChange={(v) => updateParam("character", v as string)}
+        >
+          <SelectTrigger aria-label="Filtrar por carácter" className="min-w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.entries(CHARACTER_ITEMS).map(([value, label]) => (
+              <SelectItem key={value} value={value}>
+                {label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 }

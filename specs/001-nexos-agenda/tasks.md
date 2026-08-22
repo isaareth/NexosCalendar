@@ -179,6 +179,12 @@ vista pública sin pasos manuales.
       no hay assets pendientes para esta feature
 - [ ] T042 Desplegar a Vercel (free tier), conectar variables de entorno del proyecto
       Supabase, y confirmar que `SUPABASE_SERVICE_ROLE_KEY` NO está configurada en Vercel
+- [X] T043 [US1] Retrofit tras feedback de usuario (FR-020): componente `Ticker` en
+      `app/(public)/components/Ticker.tsx` + `getUpcomingEvents()` en `lib/queries.ts` +
+      keyframes `.animate-ticker` en `app/globals.css`; rediseño de `app/page.tsx` (logo en
+      el header, no centrado) y corrección de legibilidad de `Countdown`; fix del bug de
+      `Select` (shadcn/Base UI) que mostraba el valor crudo en vez de la etiqueta en
+      `Filters.tsx` y `EventForm.tsx`
 
 ---
 

@@ -2,7 +2,8 @@ import Image from "next/image";
 import { Countdown } from "./(public)/components/Countdown";
 import { CalendarView } from "./(public)/components/CalendarView";
 import { Filters } from "./(public)/components/Filters";
-import { getNextEvent, listEvents } from "@/lib/queries";
+import { Ticker } from "./(public)/components/Ticker";
+import { getNextEvent, getUpcomingEvents, listEvents } from "@/lib/queries";
 import { isCategory } from "@/lib/categories";
 import type { EventFilters } from "@/lib/types";
 
@@ -24,32 +25,47 @@ export default async function Home({ searchParams }: HomeProps) {
   if (params.character === "obligatorio" || params.character === "voluntario")
     filters.character = params.character;
 
-  const [events, nextEvent] = await Promise.all([listEvents(filters), getNextEvent()]);
+  const [events, nextEvent, upcoming] = await Promise.all([
+    listEvents(filters),
+    getNextEvent(),
+    getUpcomingEvents(3),
+  ]);
 
   return (
-    <div className="mx-auto flex w-full max-w-4xl flex-col gap-8 px-4 py-8 sm:px-6">
-      <header className="flex flex-col items-center gap-4 text-center">
-        <Image
-          src="/brand/logo-nexos.jpg"
-          alt="NEXOS — Periódico Estudiantil"
-          width={140}
-          height={140}
-          className="rounded-full"
-          priority
-        />
-        <p className="font-heading text-lg text-muted-foreground">
-          Calendario de actividades de NEXOS
-        </p>
+    <div className="flex min-h-screen flex-col">
+      <header className="sticky top-0 z-10 border-b border-border bg-card/90 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
+          <Image
+            src="/brand/logo-nexos.jpg"
+            alt="NEXOS — Periódico Estudiantil"
+            width={44}
+            height={44}
+            className="rounded-full"
+            priority
+          />
+          <div className="leading-tight">
+            <p className="font-heading text-lg font-semibold">NEXOS</p>
+            <p className="text-xs text-muted-foreground">Calendario de actividades</p>
+          </div>
+        </div>
       </header>
 
-      <Countdown
-        nextEventStartTime={nextEvent?.start_time ?? null}
-        nextEventTitle={nextEvent?.title ?? null}
-      />
+      <Ticker events={upcoming} />
 
-      <Filters />
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-10 px-4 py-8 sm:px-6 sm:py-10">
+        <Countdown
+          nextEventStartTime={nextEvent?.start_time ?? null}
+          nextEventTitle={nextEvent?.title ?? null}
+        />
 
-      <CalendarView events={events} />
+        <section className="flex flex-col gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="font-heading text-2xl">Calendario</h2>
+            <Filters />
+          </div>
+          <CalendarView events={events} />
+        </section>
+      </main>
     </div>
   );
 }

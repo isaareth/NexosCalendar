@@ -15,6 +15,12 @@ import { CATEGORY_ORDER, categoryLabel, genderAppliesTo, isCategory } from "@/li
 import { createEvent, updateEvent } from "../actions";
 import type { Event, EventInput } from "@/lib/types";
 
+const CATEGORY_ITEMS: Record<string, string> = Object.fromEntries(
+  CATEGORY_ORDER.map((cat) => [cat, categoryLabel(cat)]),
+);
+const CHARACTER_ITEMS = { obligatorio: "Obligatorio", voluntario: "Voluntario" };
+const GENDER_ITEMS = { masculino: "Masculino", femenino: "Femenino" };
+
 function toLocalInputValue(iso: string | null) {
   if (!iso) return "";
   const date = new Date(iso);
@@ -82,7 +88,11 @@ export function EventForm({ event, onSuccess, onCancel }: EventFormProps) {
       <div className="grid grid-cols-2 gap-3">
         <div className="flex flex-col gap-1.5">
           <Label>Categoría</Label>
-          <Select value={category} onValueChange={(v) => { setCategory(v as string); setGender(""); }}>
+          <Select
+            items={CATEGORY_ITEMS}
+            value={category}
+            onValueChange={(v) => { setCategory(v as string); setGender(""); }}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -98,7 +108,7 @@ export function EventForm({ event, onSuccess, onCancel }: EventFormProps) {
 
         <div className="flex flex-col gap-1.5">
           <Label>Carácter</Label>
-          <Select value={character} onValueChange={(v) => setCharacter(v as string)}>
+          <Select items={CHARACTER_ITEMS} value={character} onValueChange={(v) => setCharacter(v as string)}>
             <SelectTrigger>
               <SelectValue placeholder="Elegir…" />
             </SelectTrigger>
@@ -113,7 +123,7 @@ export function EventForm({ event, onSuccess, onCancel }: EventFormProps) {
       {showGender && (
         <div className="flex flex-col gap-1.5">
           <Label>Género</Label>
-          <Select value={gender} onValueChange={(v) => setGender(v as string)}>
+          <Select items={GENDER_ITEMS} value={gender} onValueChange={(v) => setGender(v as string)}>
             <SelectTrigger>
               <SelectValue placeholder="Elegir…" />
             </SelectTrigger>

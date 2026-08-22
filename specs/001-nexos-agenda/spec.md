@@ -157,6 +157,11 @@ paso que el cambio se refleje en la vista pública.
   §8).
 - **FR-019**: Todo uso de color como distintivo (color de categoría, etiqueta de género) MUST
   ir siempre acompañado de una etiqueta de texto visible — el color nunca es la única señal.
+- **FR-020**: El sistema MUST mostrar, debajo del encabezado, una franja animada en
+  desplazamiento continuo con las próximas actividades (de cualquier categoría, sin depender
+  del filtro activo — igual que el countdown de FR-002), para reforzar la sensación de
+  calendario "vivo". La animación MUST respetar `prefers-reduced-motion` (se detiene si el
+  visitante lo tiene activado) y MUST pausarse al pasar el mouse por encima.
 
 ### Key Entities
 
