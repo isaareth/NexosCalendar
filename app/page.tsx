@@ -1,4 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
+import { LayoutDashboard } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Countdown } from "./(public)/components/Countdown";
 import { CalendarView } from "./(public)/components/CalendarView";
 import { Filters } from "./(public)/components/Filters";
@@ -34,19 +37,27 @@ export default async function Home({ searchParams }: HomeProps) {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-10 border-b border-border bg-card/90 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
-          <Image
-            src="/brand/logo-nexos.jpg"
-            alt="NEXOS — Periódico Estudiantil"
-            width={44}
-            height={44}
-            className="rounded-full"
-            priority
-          />
-          <div className="leading-tight">
-            <p className="font-heading text-lg font-semibold">NEXOS</p>
-            <p className="text-xs text-muted-foreground">Calendario de actividades</p>
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+          <div className="flex items-center gap-3">
+            <Image
+              src="/brand/logo-nexos.jpg"
+              alt="NEXOS — Periódico Estudiantil"
+              width={44}
+              height={44}
+              className="rounded-full"
+              priority
+            />
+            <div className="leading-tight">
+              <p className="font-heading text-lg font-semibold">NEXOS</p>
+              <p className="text-xs text-muted-foreground">Calendario de actividades</p>
+            </div>
           </div>
+
+          <Button variant="outline" size="sm" render={<Link href="/admin/login" />}>
+            <LayoutDashboard className="size-4" />
+            <span className="hidden sm:inline">Panel administrativo</span>
+            <span className="sm:hidden">Admin</span>
+          </Button>
         </div>
       </header>
 
