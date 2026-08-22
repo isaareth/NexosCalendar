@@ -113,7 +113,12 @@ export function EventsManager({ events }: { events: Event[] }) {
               Los campos marcados son obligatorios. El género solo aplica a Fútbol.
             </DialogDescription>
           </DialogHeader>
-          <EventForm event={formState.event} onSuccess={closeForm} onCancel={closeForm} />
+          <EventForm
+            key={formState.event?.id ?? "new"}
+            event={formState.event}
+            onSuccess={closeForm}
+            onCancel={closeForm}
+          />
         </DialogContent>
       </Dialog>
 
