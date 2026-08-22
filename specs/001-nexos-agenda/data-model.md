@@ -83,9 +83,9 @@ justificación están en [research.md §8](research.md#8-paleta-de-colores-por-c
 ```ts
 export const CATEGORY_COLOR: Record<Category, string> = {
   "General": "#234090",              // extraído de public/brand/logo-nexos.jpg
-  "Deportes - Fútbol": "#73528E",    // extraído de public/brand/sports/futbol.png (tinte claro: #E4BEFC)
-  "Deportes - Vóley": "#78716C",     // NEEDS ASSET — placeholder hasta public/brand/sports/voley.png
-  "Deportes - Básquet": "#78716C",   // NEEDS ASSET — placeholder hasta public/brand/sports/basquet.png
+  "Deportes - Fútbol": "#73528E",    // extraído de public/brand/deportes.png (tinte claro: #E4BEFC)
+  "Deportes - Vóley": "#73528E",     // mismo escudo/color que Fútbol — un solo escudo para las 3 disciplinas
+  "Deportes - Básquet": "#73528E",   // mismo escudo/color que Fútbol
   "Edición": "#2563EB",
   "Mercadeo": "#9333EA",
   "RRPP": "#DC2626",

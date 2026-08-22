@@ -149,12 +149,12 @@ paso que el cambio se refleje en la vista pública.
   genérico o futurista (sin fuentes "tech" tipo monospace/geométricas de dashboard, sin
   gradientes neón ni glassmorphism).
 - **FR-018**: Cada categoría MUST tener un color de marca coherente y consistente en todo el
-  sitio: Talento Humano (DH) = verde, Edición = azul, Mercadeo = morado, RRPP = rojo; General
-  y Deportes - Fútbol derivan su color de los logos oficiales de NEXOS ya provistos en
-  `public/brand/` (resuelto — ver `research.md` §8). Deportes - Vóley y Deportes - Básquet
-  MUST derivar su color de sus propios escudos/logos cuando existan
-  ([NEEDS ASSET: `public/brand/sports/voley.png`, `public/brand/sports/basquet.png`] —
-  mientras tanto usan un color neutro temporal, no uno definitivo).
+  sitio: Talento Humano (DH) = verde, Edición = azul, Mercadeo = morado, RRPP = rojo;
+  General deriva su color del logo oficial de NEXOS; Deportes - Fútbol, Deportes - Vóley y
+  Deportes - Básquet comparten un único escudo oficial y por lo tanto el mismo color de
+  marca (se distinguen entre sí por el texto de la categoría, no por el color). Todos estos
+  colores ya están resueltos a partir de los assets en `public/brand/` (ver `research.md`
+  §8).
 - **FR-019**: Todo uso de color como distintivo (color de categoría, etiqueta de género) MUST
   ir siempre acompañado de una etiqueta de texto visible — el color nunca es la única señal.
 
@@ -207,9 +207,9 @@ paso que el cambio se refleje en la vista pública.
   cumpleaños en el calendario. La v2 usa exactamente las 6 categorías fijas del input, con
   Mercadeo y Talento Humano (DH) como áreas separadas (a diferencia del "Merc y DH" combinado
   de la v1).
-- Los colores de General y Deportes - Fútbol ya se extrajeron de los archivos reales en
-  `public/brand/` (ver `public/brand/README.md` y `research.md` §8); Vóley y Básquet siguen
-  con un color temporal/neutro hasta que NEXOS provea sus propios escudos.
+- Todos los colores de categoría ya se extrajeron de los archivos reales en `public/brand/`
+  (ver `public/brand/README.md` y `research.md` §8); no quedan colores pendientes. Fútbol,
+  Vóley y Básquet comparten un único escudo oficial y por lo tanto el mismo color.
 - Un visitante puede ver actividades pasadas (historial), no solo futuras; no se especificó lo
   contrario y el campo `result` solo tiene sentido si los partidos pasados siguen siendo
   visibles.

@@ -90,12 +90,13 @@
 ## 8. Paleta de colores por categoría
 
 - **Decision**: Los 4 colores de departamento son fijos y ya están dados por NEXOS (DH =
-  verde, Edición = azul, Mercadeo = morado, RRPP = rojo). `General` y `Deportes - Fútbol` se
-  resolvieron por extracción manual (muestreo de color, no un pipeline automatizado) sobre
-  los archivos reales que NEXOS proveyó en `public/brand/`: `logo-nexos.jpg` (logo oficial) y
-  `sports/futbol.png` (escudo real de "NEXOS Fútbol Club"). `Deportes - Vóley` y
-  `Deportes - Básquet` siguen como `NEEDS ASSET` — no existe un escudo propio de esas
-  disciplinas todavía, así que no se inventa un color "definitivo" para ellas.
+  verde, Edición = azul, Mercadeo = morado, RRPP = rojo). `General` se resolvió por
+  extracción manual (muestreo de color, no un pipeline automatizado) sobre
+  `public/brand/logo-nexos.jpg`. Las tres subcategorías deportivas (`Deportes - Fútbol`,
+  `Deportes - Vóley`, `Deportes - Básquet`) comparten un único escudo real —
+  `public/brand/deportes.png` — confirmado por NEXOS como el mismo para las tres
+  disciplinas, así que comparten también el mismo color extraído de ese escudo. No quedan
+  `NEEDS ASSET` pendientes para esta feature.
 - **Rationale**: Automatizar la extracción de color de una imagen (k-means sobre píxeles,
   etc.) es una dependencia y un paso de build extra para un valor que se define una sola vez
   y casi no cambia — violaría Principio V (Simplicidad). Un muestreo puntual sobre el PNG/JPG
@@ -116,24 +117,21 @@
   dashboard.
 - **Alternatives considered**: Extracción automática de paleta (ej. `node-vibrant`) —
   rechazada por sobre-ingeniería; reutilizar el mismo morado para género y Mercadeo
-  (rechazado, aumenta la ambigüedad justo donde el usuario pidió coherencia); inventar un
-  color de marca para Vóley/Básquet sin asset real (rechazado — contradice la instrucción
-  explícita del usuario de extraer los colores de la imagen real, no inventarlos).
+  (rechazado, aumenta la ambigüedad justo donde el usuario pidió coherencia); un color
+  distinto por disciplina deportiva (rechazado — no hay tres escudos distintos, hay uno solo
+  compartido; inventar variaciones sería un color no respaldado por ningún asset real).
 
 | Categoría / uso | Color | Hex | Fuente |
 |---|---|---|---|
 | Talento Humano (DH) | Verde | `#16A34A` | Instrucción explícita del usuario |
 | Edición | Azul | `#2563EB` | Instrucción explícita del usuario |
-| Mercadeo | Morado (rojizo/magenta) | `#9333EA` | Instrucción explícita + ajustado para distinguirse de Fútbol |
+| Mercadeo | Morado (rojizo/magenta) | `#9333EA` | Instrucción explícita + ajustado para distinguirse de Deportes |
 | RRPP | Rojo | `#DC2626` | Instrucción explícita del usuario |
 | General | Azul marino | `#234090` | Extraído de `public/brand/logo-nexos.jpg` |
-| Deportes - Fútbol | Morado (azulado/lavanda) | `#73528E` (tinte claro `#E4BEFC`) | Extraído de `public/brand/sports/futbol.png` |
-| Deportes - Vóley | *(pendiente de logo)* | `#78716C` (gris cálido temporal) | `NEEDS ASSET` — falta `sports/voley.png` |
-| Deportes - Básquet | *(pendiente de logo)* | `#78716C` (gris cálido temporal) | `NEEDS ASSET` — falta `sports/basquet.png` |
+| Deportes - Fútbol / Vóley / Básquet | Morado (azulado/lavanda) | `#73528E` (tinte claro `#E4BEFC`) | Extraído de `public/brand/deportes.png` (mismo escudo para las 3 disciplinas) |
 | Género — Masculino | Turquesa | `#2DD4BF` | Acento del logo oficial (`logo-nexos.jpg`), reemplaza el morado de v1 para evitar la colisión |
 | Género — Femenino | Rosado/coral | `#F472B6` | Sin cambios respecto a v1, sin colisión |
 
-**Output**: Todos los `NEEDS CLARIFICATION` del Technical Context quedan resueltos.
-Quedan dos `NEEDS ASSET` explícitos y acotados (color final de Vóley y Básquet),
-documentados también en `spec.md` FR-018 — bloquean solo esas dos filas de `lib/theme.ts`,
-no el resto de la implementación.
+**Output**: Todos los `NEEDS CLARIFICATION` del Technical Context quedan resueltos. No
+quedan `NEEDS ASSET` pendientes — las tres subcategorías deportivas comparten escudo y
+color, confirmado por el usuario.

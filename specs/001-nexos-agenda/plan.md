@@ -103,8 +103,9 @@ components/
 └── ui/                          # Componentes shadcn/ui re-temados (button, dialog, select, ...)
 
 public/
-└── brand/                       # Logos oficiales de NEXOS (ver public/brand/README.md)
-    └── sports/                  # Logos por disciplina deportiva
+└── brand/                       # Logos oficiales de NEXOS (ver public/brand/README.md):
+                                  # logo-nexos.jpg, logo-nexos-creativo.jpg, deportes.png
+                                  # (deportes.png es un único escudo para Fútbol/Vóley/Básquet)
 
 supabase/
 └── schema.sql                   # DDL + políticas RLS (fuente de verdad de la BD)

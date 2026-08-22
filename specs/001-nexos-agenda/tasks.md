@@ -58,8 +58,8 @@ tipografía editorial ya cargada.
       única de la Constitución, Principio II)
 - [ ] T012 [P] Crear `lib/theme.ts` con `CATEGORY_COLOR` y `GENDER_COLOR` per
       [data-model.md](data-model.md#design-tokens-libthemets-no-es-una-tabla-es-la-fuente-única-del-color-por-categoría)
-      — General y Deportes - Fútbol usan los valores ya extraídos de `public/brand/`; Vóley y
-      Básquet quedan con el valor neutro placeholder (ver T041)
+      — todos los valores ya están resueltos a partir de `public/brand/` (Fútbol/Vóley/Básquet
+      comparten el mismo color, ver `research.md` §8), no quedan placeholders
 - [ ] T013 [P] Crear `lib/types.ts` con los tipos `Event` y `EventInput` compartidos
 - [ ] T014 [P] Crear `lib/validators.ts` con la validación de `EventInput` (reutiliza
       `lib/categories.ts` para la regla género-Fútbol; no la reimplementa)
@@ -172,11 +172,9 @@ vista pública sin pasos manuales.
       [quickstart.md](quickstart.md) de punta a punta
 - [ ] T040 [P] Pasada de accesibilidad básica (labels, foco visible, contraste) en vistas
       pública y admin, incluyendo el contraste de los colores por categoría (FR-019)
-- [ ] T041 [P] **Bloqueada hasta que existan `public/brand/sports/voley.png` y
-      `sports/basquet.png`**: extraer manualmente 1-2 colores dominantes de cada escudo y
-      reemplazar los valores placeholder de `Deportes - Vóley`/`Deportes - Básquet` en
-      `lib/theme.ts` (General y Fútbol ya están resueltos desde T012) — confirmar que ningún
-      otro archivo tiene un color de categoría hardcodeado (Principio II/VI)
+- [ ] T041 [P] Auditoría final de tokens de marca: confirmar que ningún componente
+      hardcodea un color de categoría o de género fuera de `lib/theme.ts` (Principio II/VI);
+      no hay assets pendientes para esta feature
 - [ ] T042 Desplegar a Vercel (free tier), conectar variables de entorno del proyecto
       Supabase, y confirmar que `SUPABASE_SERVICE_ROLE_KEY` NO está configurada en Vercel
 
@@ -192,9 +190,7 @@ vista pública sin pasos manuales.
 - **User Story 2 (Phase 4)**: depende solo de Foundational — es independiente de US1 en
   código, aunque para demostrar el ciclo completo (crear en admin → verlo en público) ambas
   deben estar desplegadas
-- **Polish (Phase 5)**: depende de que las historias que se vayan a entregar estén completas;
-  T041 además depende de que el usuario agregue los archivos de logo (fuera del control del
-  equipo de implementación)
+- **Polish (Phase 5)**: depende de que las historias que se vayan a entregar estén completas
 
 ### Parallel Opportunities
 
@@ -240,8 +236,7 @@ Task: "Componente CharacterBadge en app/(public)/components/CharacterBadge.tsx"
 2. Agregar User Story 1 → validar independientemente → demo (MVP)
 3. Agregar User Story 2 → validar independientemente → demo (producto completo: contenido
    se administra sin tocar código, igual que pedía el objetivo original del proyecto)
-4. Fase de Polish → aprovisionar directivos reales, finalizar colores con el logo real, y
-   desplegar a producción
+4. Fase de Polish → aprovisionar directivos reales y desplegar a producción
 
 ---
 
