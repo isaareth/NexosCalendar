@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { CharacterBadge } from "./CharacterBadge";
 import { categoryLabel } from "@/lib/categories";
-import { CATEGORY_COLOR } from "@/lib/theme";
+import { eventColor, eventColorForeground } from "@/lib/theme";
 import type { Event } from "@/lib/types";
 
 interface EventModalProps {
@@ -29,8 +29,11 @@ export function EventModal({ event, onClose }: EventModalProps) {
           <>
             <DialogHeader>
               <span
-                className="mb-1 inline-block w-fit rounded-full px-2.5 py-0.5 text-xs font-semibold text-white"
-                style={{ backgroundColor: CATEGORY_COLOR[event.category] }}
+                className="mb-1 inline-block w-fit rounded-full px-2.5 py-0.5 text-xs font-semibold"
+                style={{
+                  backgroundColor: eventColor(event),
+                  color: eventColorForeground(event),
+                }}
               >
                 {categoryLabel(event.category)}
                 {event.gender !== "no_aplica" &&

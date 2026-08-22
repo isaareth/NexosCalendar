@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { categoryLabel } from "@/lib/categories";
-import { CATEGORY_COLOR } from "@/lib/theme";
+import { eventColor } from "@/lib/theme";
 import type { Event } from "@/lib/types";
 
 /**
@@ -24,7 +24,7 @@ export function Ticker({ events }: { events: Event[] }) {
           >
             <span
               className="size-2 shrink-0 rounded-full"
-              style={{ backgroundColor: CATEGORY_COLOR[event.category] }}
+              style={{ backgroundColor: eventColor(event) }}
               aria-hidden
             />
             <strong className="font-heading font-semibold">{event.title}</strong>

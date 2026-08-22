@@ -185,6 +185,14 @@ vista pública sin pasos manuales.
       el header, no centrado) y corrección de legibilidad de `Countdown`; fix del bug de
       `Select` (shadcn/Base UI) que mostraba el valor crudo en vez de la etiqueta en
       `Filters.tsx` y `EventForm.tsx`
+- [X] T044 [US1] Retrofit: filtros de `Select` a botones tipo chip coloreados por
+      departamento en `Filters.tsx` (Research §8/§9); botón "Panel administrativo" en el
+      header público y botón "Ver calendario" en el dashboard admin (FR-022)
+- [X] T045 [US1] Retrofit (FR-018 revisado, FR-021): `eventColor()`/`eventColorForeground()`
+      en `lib/theme.ts` (color por género en Fútbol, amarillo/naranja propios para
+      Vóley/Básquet — Research §9) consumidos por `CalendarView`, `EventModal` y `Ticker`;
+      reemplazo de la animación de entrada por `NewspaperIntro.tsx` (portada de periódico
+      con `logo-nexos-creativo.jpg`, Research §10)
 
 ---
 

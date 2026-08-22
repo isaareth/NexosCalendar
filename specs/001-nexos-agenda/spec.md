@@ -149,12 +149,15 @@ paso que el cambio se refleje en la vista pública.
   genérico o futurista (sin fuentes "tech" tipo monospace/geométricas de dashboard, sin
   gradientes neón ni glassmorphism).
 - **FR-018**: Cada categoría MUST tener un color de marca coherente y consistente en todo el
-  sitio: Talento Humano (DH) = verde, Edición = azul, Mercadeo = morado, RRPP = rojo;
-  General deriva su color del logo oficial de NEXOS; Deportes - Fútbol, Deportes - Vóley y
-  Deportes - Básquet comparten un único escudo oficial y por lo tanto el mismo color de
-  marca (se distinguen entre sí por el texto de la categoría, no por el color). Todos estos
-  colores ya están resueltos a partir de los assets en `public/brand/` (ver `research.md`
-  §8).
+  sitio: Talento Humano (DH) = verde, Edición = azul, Mercadeo = morado, RRPP = rojo,
+  Deportes - Vóley = amarillo, Deportes - Básquet = naranja; General deriva su color del
+  logo oficial de NEXOS. En la previsualización del calendario y el modal de detalle,
+  Deportes - Fútbol MUST distinguirse por género en vez de un color de categoría único:
+  rosado para los partidos de género femenino, aguamarina para los de género masculino
+  (reutilizando los mismos colores de género de FR-019/Assumptions) — en los filtros, donde
+  todavía no se conoce el género, el chip de "Deportes - Fútbol" usa el color del escudo
+  oficial. Todos estos colores ya están resueltos a partir de los assets en `public/brand/`
+  o de instrucción explícita del usuario (ver `research.md` §8).
 - **FR-019**: Todo uso de color como distintivo (color de categoría, etiqueta de género) MUST
   ir siempre acompañado de una etiqueta de texto visible — el color nunca es la única señal.
 - **FR-020**: El sistema MUST mostrar, debajo del encabezado, una franja animada en
@@ -162,10 +165,11 @@ paso que el cambio se refleje en la vista pública.
   del filtro activo — igual que el countdown de FR-002), para reforzar la sensación de
   calendario "vivo". La animación MUST respetar `prefers-reduced-motion` (se detiene si el
   visitante lo tiene activado) y MUST pausarse al pasar el mouse por encima.
-- **FR-021**: Al cargar la vista pública, el sistema MUST mostrar una animación de entrada
-  del logo de NEXOS (~2 segundos, zoom-out + rotación hacia la esquina superior izquierda del
-  encabezado) antes de asentarse en su posición final. MUST respetar `prefers-reduced-motion`
-  (se omite por completo, sin retrasar la carga de la página).
+- **FR-021**: Al cargar la vista pública, el sistema MUST mostrar una animación de entrada de
+  ~2 segundos estilo "portada de periódico abriéndose" (dos mitades que se abren revelando
+  la página real detrás), mostrando el logo creativo de NEXOS mientras está cerrada. MUST
+  respetar `prefers-reduced-motion` (se omite por completo, sin retrasar la carga de la
+  página).
 - **FR-022**: El panel administrativo MUST ofrecer, junto al botón de cerrar sesión, un
   acceso directo de vuelta a la vista pública del calendario.
 

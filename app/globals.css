@@ -156,21 +156,49 @@
   }
 }
 
-@keyframes logo-intro-spin {
-  0% {
-    transform: scale(2.4) rotate(0deg);
-  }
-  75% {
-    transform: translate(-34vw, -34vh) scale(0.9) rotate(620deg);
+@keyframes paper-open-left {
+  0%,
+  27% {
+    transform: rotateY(0deg);
   }
   100% {
-    transform: translate(-38vw, -38vh) scale(0.5) rotate(720deg);
+    transform: rotateY(-115deg);
   }
 }
 
-@keyframes logo-intro-fade {
+@keyframes paper-open-right {
   0%,
-  68% {
+  27% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(115deg);
+  }
+}
+
+@keyframes paper-logo-fade {
+  0%,
+  22% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  62% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+@keyframes paper-overlay-fade {
+  0%,
+  85% {
     opacity: 1;
   }
   100% {
@@ -178,17 +206,27 @@
   }
 }
 
-.animate-logo-intro-spin {
-  animation: logo-intro-spin 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+.animate-paper-open-left {
+  animation: paper-open-left 2.2s cubic-bezier(0.6, 0, 0.4, 1) forwards;
 }
 
-.animate-logo-intro-fade {
-  animation: logo-intro-fade 2s ease forwards;
+.animate-paper-open-right {
+  animation: paper-open-right 2.2s cubic-bezier(0.6, 0, 0.4, 1) forwards;
+}
+
+.animate-paper-logo-fade {
+  animation: paper-logo-fade 2.2s ease forwards;
+}
+
+.animate-paper-overlay-fade {
+  animation: paper-overlay-fade 2.2s ease forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-logo-intro-spin,
-  .animate-logo-intro-fade {
+  .animate-paper-open-left,
+  .animate-paper-open-right,
+  .animate-paper-logo-fade,
+  .animate-paper-overlay-fade {
     animation: none;
     display: none;
   }

@@ -19,7 +19,7 @@ import { es } from "date-fns/locale";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EventModal } from "./EventModal";
-import { CATEGORY_COLOR } from "@/lib/theme";
+import { eventColor, eventColorForeground } from "@/lib/theme";
 import type { Event } from "@/lib/types";
 
 type ViewMode = "month" | "week";
@@ -133,8 +133,11 @@ export function CalendarView({ events }: { events: Event[] }) {
                   <button
                     key={event.id}
                     onClick={() => setSelectedEvent(event)}
-                    className="truncate rounded px-1.5 py-0.5 text-left text-[11px] font-medium text-white hover:opacity-90"
-                    style={{ backgroundColor: CATEGORY_COLOR[event.category] }}
+                    className="truncate rounded px-1.5 py-0.5 text-left text-[11px] font-medium hover:opacity-90"
+                    style={{
+                      backgroundColor: eventColor(event),
+                      color: eventColorForeground(event),
+                    }}
                     title={event.title}
                   >
                     {event.title}

@@ -78,14 +78,15 @@ verificable a SC-005 y SC-002 del spec.
 ## Design tokens: `/lib/theme.ts` (no es una tabla, es la fuente única del color por categoría)
 
 Implementa FR-018/FR-019 y la Constitución Principio VI. Valores concretos y su
-justificación están en [research.md §8](research.md#8-paleta-de-colores-por-categoría).
+justificación están en [research.md §8](research.md#8-paleta-de-colores-por-categoría) y
+[§9](research.md#9-revisión-color-por-género-en-fútbol--colores-propios-para-vóleybásquet).
 
 ```ts
 export const CATEGORY_COLOR: Record<Category, string> = {
   "General": "#234090",              // extraído de public/brand/logo-nexos.jpg
-  "Deportes - Fútbol": "#73528E",    // extraído de public/brand/deportes.png (tinte claro: #E4BEFC)
-  "Deportes - Vóley": "#73528E",     // mismo escudo/color que Fútbol — un solo escudo para las 3 disciplinas
-  "Deportes - Básquet": "#73528E",   // mismo escudo/color que Fútbol
+  "Deportes - Fútbol": "#73528E",    // color de categoría "puro" (sin género conocido) — chip de Filters
+  "Deportes - Vóley": "#CA8A04",     // amarillo — a pedido del usuario
+  "Deportes - Básquet": "#EA580C",   // naranja — a pedido del usuario
   "Edición": "#2563EB",
   "Mercadeo": "#9333EA",
   "RRPP": "#DC2626",
@@ -93,10 +94,20 @@ export const CATEGORY_COLOR: Record<Category, string> = {
 };
 
 export const GENDER_COLOR = {
-  masculino: "#2DD4BF",              // acento turquesa del logo oficial (evita colisión con los morados de Fútbol/Mercadeo)
-  femenino: "#F472B6",
+  masculino: "#2DD4BF",              // aguamarina — acento del logo oficial
+  femenino: "#F472B6",               // rosado
 } as const;
+
+// Color de una actividad concreta: en Fútbol usa GENDER_COLOR (rosado/aguamarina) en vez
+// del morado de categoría, para distinguir partidos de niñas/niños en el calendario.
+export function eventColor(event: { category: Category; gender: EventGender }): string;
+
+// Blanco no contrasta bien sobre el amarillo de Vóley — texto legible por categoría.
+export function eventColorForeground(event: { category: Category; gender: EventGender }): string;
 ```
 
 Ningún componente define un color de categoría o de género fuera de este archivo (mismo
 principio de fuente única que `/lib/categories.ts`, aplicado a diseño en vez de a datos).
+`CalendarView`, `EventModal` y `Ticker` (que renderizan eventos concretos) usan
+`eventColor`/`eventColorForeground`; `Filters` (que renderiza categorías sin un evento
+concreto) usa `CATEGORY_COLOR` directamente.

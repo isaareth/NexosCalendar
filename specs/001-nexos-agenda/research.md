@@ -121,6 +121,11 @@
   distinto por disciplina deportiva (rechazado — no hay tres escudos distintos, hay uno solo
   compartido; inventar variaciones sería un color no respaldado por ningún asset real).
 
+> **Nota**: la tabla original de este apartado asignaba un único color (el del escudo de
+> Fútbol) a las 3 subcategorías deportivas. Esa decisión se **revisó en §9** a pedido del
+> usuario: Vóley y Básquet ahora tienen color propio, y Fútbol se diferencia por género en
+> los lugares donde se muestra un evento concreto.
+
 | Categoría / uso | Color | Hex | Fuente |
 |---|---|---|---|
 | Talento Humano (DH) | Verde | `#16A34A` | Instrucción explícita del usuario |
@@ -132,6 +137,43 @@
 | Género — Masculino | Turquesa | `#2DD4BF` | Acento del logo oficial (`logo-nexos.jpg`), reemplaza el morado de v1 para evitar la colisión |
 | Género — Femenino | Rosado/coral | `#F472B6` | Sin cambios respecto a v1, sin colisión |
 
+## 9. Revisión: color por género en Fútbol + colores propios para Vóley/Básquet
+
+- **Decision**: Se introduce `eventColor(event)` en `lib/theme.ts`, que calcula el color de
+  un evento concreto: si `category = 'Deportes - Fútbol'`, usa `GENDER_COLOR[gender]`
+  (rosado para femenino, aguamarina/turquesa para masculino) en vez de un color de
+  categoría fijo; para el resto de categorías (incluyendo Vóley y Básquet, que ahora tienen
+  color propio: amarillo `#CA8A04` y naranja `#EA580C`) usa `CATEGORY_COLOR[category]` sin
+  cambios. `CATEGORY_COLOR['Deportes - Fútbol']` (el morado del escudo) se conserva para los
+  lugares donde solo se conoce la categoría, no un evento (el chip de Fútbol en `Filters`).
+  También se agrega `eventColorForeground(event)`, porque el amarillo de Vóley no tiene
+  contraste suficiente con texto blanco — usa texto oscuro solo para esa categoría.
+- **Rationale**: Petición explícita del usuario tras ver la previsualización del calendario:
+  quiere distinguir partidos de niñas/niños por color (no solo por texto), y que Vóley/Básquet
+  dejen de compartir el morado de Fútbol. `eventColor`/`eventColorForeground` son la única
+  fuente de este cálculo (Principio II/VI) — `CalendarView`, `EventModal` y `Ticker` lo
+  consumen; ninguno reimplementa la condición "Fútbol + género".
+- **Alternatives considered**: Agregar `masculino`/`femenino` como si fueran categorías
+  separadas (rechazado — el modelo de datos ya trata género como un campo aparte de
+  categoría, y duplicarlo como categoría rompería `CATEGORY_ORDER`/FR-004); mantener un solo
+  color por categoría e ignorar la distinción de género en el calendario (rechazado, es
+  exactamente lo que el usuario pidió cambiar).
+
+## 10. Animación de entrada: portada de periódico
+
+- **Decision**: La animación de entrada de la vista pública (FR-021) se implementa como dos
+  paneles en `rotateY` (efecto "portada abriéndose", con `perspective` en el contenedor) que
+  muestran `public/brand/logo-nexos-creativo.jpg` mientras están cerrados, y se abren
+  (~2.2s) revelando la página real ya renderizada detrás. Reemplaza un diseño anterior
+  (zoom-out + rotación hacia la esquina) que no evocaba la identidad de periódico tan
+  directamente.
+- **Rationale**: Es 100% CSS (keyframes + `transform-origin` + `perspective`), sin
+  dependencias nuevas (Principio V), y usa el asset que ya se había clasificado como
+  "decorativo" en §8 — aquí encuentra un uso funcional legítimo (la portada del splash) sin
+  convertirse en fuente de color de categoría, que sigue siendo su rol según §8.
+- **Alternatives considered**: Librería de animación (Framer Motion/GSAP) — rechazada,
+  innecesaria para dos transiciones CSS; animar el logo oficial en vez del creativo
+  (rechazado, el usuario pidió específicamente el logo creativo para este momento).
+
 **Output**: Todos los `NEEDS CLARIFICATION` del Technical Context quedan resueltos. No
-quedan `NEEDS ASSET` pendientes — las tres subcategorías deportivas comparten escudo y
-color, confirmado por el usuario.
+quedan `NEEDS ASSET` pendientes.
