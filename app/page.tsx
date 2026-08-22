@@ -58,11 +58,9 @@ export default async function Home({ searchParams }: HomeProps) {
           nextEventTitle={nextEvent?.title ?? null}
         />
 
-        <section className="flex flex-col gap-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="font-heading text-2xl">Calendario</h2>
-            <Filters />
-          </div>
+        <section className="flex flex-col gap-5">
+          <h2 className="font-heading text-2xl">Calendario</h2>
+          <Filters />
           <CalendarView events={events} />
         </section>
       </main>
