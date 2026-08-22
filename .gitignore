@@ -1,0 +1,28 @@
+# Next.js
+.next/
+out/
+build/
+
+# Dependencies
+node_modules/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Testing
+/coverage
+/playwright-report
+/test-results
+
+# Misc
+.DS_Store
+*.log
+npm-debug.log*
+
+# Claude Code local settings (never commit machine-local permissions/state)
+.claude/settings.local.json
+
+# Spec Kit machine-local state (managed by specify-cli, see .specify/.gitignore)
+.specify/feature.json

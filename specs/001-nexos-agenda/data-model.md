@@ -1,0 +1,76 @@
+# Phase 1 Data Model: NEXOS Agenda
+
+## Entity: Event (`events`)
+
+Corresponde a "Actividad" en el spec (FR-001 a FR-010, FR-014).
+
+| Campo | Tipo | Reglas |
+|---|---|---|
+| `id` | `uuid`, PK | `DEFAULT gen_random_uuid()` |
+| `title` | `varchar(255)` | Requerido, no vacío (FR-014) |
+| `description` | `text` | Opcional |
+| `extra_info` | `text` | Opcional (FR-009) |
+| `category` | `varchar(50)` | Requerido; uno de los 8 valores fijos (ver `/lib/categories.ts`); orden de presentación NO vive aquí (FR-004) |
+| `gender` | `sports_gender` (`masculino`\|`femenino`\|`no_aplica`) | `DEFAULT 'no_aplica'`; solo puede ser distinto de `no_aplica` si `category = 'Deportes - Fútbol'` (FR-005) |
+| `character` | `event_character` (`obligatorio`\|`voluntario`) | Requerido, sin default silencioso — el formulario debe forzar una elección (FR-007) |
+| `start_time` | `timestamptz` | Requerido (FR-014); determina el "próximo evento" del countdown (FR-002) |
+| `end_time` | `timestamptz` | Opcional; si está presente, `end_time >= start_time` |
+| `location` | `varchar(255)` | Requerido (FR-014) |
+| `result` | `varchar(100)` | Opcional, texto libre (FR-010) |
+| `created_at` / `updated_at` | `timestamptz` | `DEFAULT now()`; `updated_at` se actualiza en cada UPDATE |
+
+**Constraints derivados de las reglas de negocio**:
+
+```sql
+CHECK (category IN (
+  'General',
+  'Deportes - Fútbol', 'Deportes - Vóley', 'Deportes - Básquet',
+  'Edición', 'Mercadeo', 'RRPP', 'Talento Humano (DH)'
+))
+
+CHECK (category = 'Deportes - Fútbol' OR gender = 'no_aplica')
+
+CHECK (end_time IS NULL OR end_time >= start_time)
+```
+
+**No hay máquina de estados**: un Event no transiciona entre estados explícitos; `result`
+simplemente se llena o no, y `start_time` en el pasado es válido (edge case del spec: registrar
+actividades ya ocurridas).
+
+## Entity: Directive User
+
+Representado íntegramente por `auth.users` de Supabase Auth — **no se crea tabla propia**
+(decisión de Research §6 y Assumption del spec: cualquier directivo autenticado puede
+gestionar actividades de cualquier categoría, por lo que no hace falta una tabla de mapeo
+área → usuario en el alcance de este spec).
+
+| Atributo | Origen |
+|---|---|
+| `id`, `email` | `auth.users` (Supabase Auth) |
+| Sesión | Cookie gestionada por `@supabase/ssr` |
+| Permisos | Implícitos: cualquier fila de `auth.users` (`authenticated`) tiene acceso de escritura completo vía la policy RLS `"Escritura protegida para directivos"` |
+
+## Domain module: `/lib/categories.ts` (no es una tabla, es la fuente única de la regla)
+
+```ts
+export const CATEGORY_ORDER = [
+  "General",
+  "Deportes - Fútbol",
+  "Deportes - Vóley",
+  "Deportes - Básquet",
+  "Edición",
+  "Mercadeo",
+  "RRPP",
+  "Talento Humano (DH)",
+] as const;
+
+export type Category = (typeof CATEGORY_ORDER)[number];
+
+export function genderAppliesTo(category: Category): boolean {
+  return category === "Deportes - Fútbol";
+}
+```
+
+Todo componente (filtros públicos, formulario admin, seed scripts) importa `CATEGORY_ORDER`
+y `genderAppliesTo` en vez de redefinir la lista o la condición — esto es lo que hace
+verificable a SC-005 y SC-002 del spec.
