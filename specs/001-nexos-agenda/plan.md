@@ -55,6 +55,7 @@ dependencias que requieran plan pago; `SUPABASE_SERVICE_ROLE_KEY` nunca expuesta
 | III. Seguridad por defecto (RLS) | RLS habilitado en `events`; lectura pública, escritura solo `authenticated`; `SUPABASE_SERVICE_ROLE_KEY` restringida a scripts de servidor/seed, nunca a componentes cliente. | PASS |
 | IV. Arquitectura server-first tipada | Server Components por defecto; Client Components solo para countdown, calendario interactivo y formularios; TypeScript strict en todo `/app`, `/lib`, `/components`. | PASS |
 | V. Simplicidad y fidelidad al spec | Alcance limitado a lo descrito en `spec.md` (001); no se agregan roles, campos ni categorías fuera de las 6 fijas. | PASS |
+| VI. Identidad editorial, no estética tech | Paleta y tipografía definidas en `lib/theme.ts`/`tailwind.config.ts` a partir de `public/brand/` + colores fijos por departamento; shadcn/ui re-temado (no se usa su look por defecto); color siempre acompañado de texto (FR-019). | PASS (colores de General/Deportes quedan pendientes de los archivos de logo — no bloquea el resto del plan) |
 
 Sin violaciones. No se requiere la tabla de Complexity Tracking.
 
@@ -95,10 +96,15 @@ lib/
 │   ├── server.ts                # Cliente Supabase para Server Components/Actions (cookies)
 │   └── client.ts                # Cliente Supabase para Client Components
 ├── categories.ts                # Fuente única: orden de categorías + regla género-Fútbol
-└── validators.ts                # Validación compartida de EventInput (reusa categories.ts)
+├── validators.ts                # Validación compartida de EventInput (reusa categories.ts)
+└── theme.ts                     # Fuente única: color por categoría (department colors + brand)
 
 components/
-└── ui/                          # Componentes shadcn/ui generados (button, dialog, select, ...)
+└── ui/                          # Componentes shadcn/ui re-temados (button, dialog, select, ...)
+
+public/
+└── brand/                       # Logos oficiales de NEXOS (ver public/brand/README.md)
+    └── sports/                  # Logos por disciplina deportiva
 
 supabase/
 └── schema.sql                   # DDL + políticas RLS (fuente de verdad de la BD)

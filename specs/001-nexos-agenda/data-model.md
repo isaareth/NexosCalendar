@@ -74,3 +74,29 @@ export function genderAppliesTo(category: Category): boolean {
 Todo componente (filtros públicos, formulario admin, seed scripts) importa `CATEGORY_ORDER`
 y `genderAppliesTo` en vez de redefinir la lista o la condición — esto es lo que hace
 verificable a SC-005 y SC-002 del spec.
+
+## Design tokens: `/lib/theme.ts` (no es una tabla, es la fuente única del color por categoría)
+
+Implementa FR-018/FR-019 y la Constitución Principio VI. Valores concretos y su
+justificación están en [research.md §8](research.md#8-paleta-de-colores-por-categoría).
+
+```ts
+export const CATEGORY_COLOR: Record<Category, string> = {
+  "General": "#234090",              // extraído de public/brand/logo-nexos.jpg
+  "Deportes - Fútbol": "#73528E",    // extraído de public/brand/sports/futbol.png (tinte claro: #E4BEFC)
+  "Deportes - Vóley": "#78716C",     // NEEDS ASSET — placeholder hasta public/brand/sports/voley.png
+  "Deportes - Básquet": "#78716C",   // NEEDS ASSET — placeholder hasta public/brand/sports/basquet.png
+  "Edición": "#2563EB",
+  "Mercadeo": "#9333EA",
+  "RRPP": "#DC2626",
+  "Talento Humano (DH)": "#16A34A",
+};
+
+export const GENDER_COLOR = {
+  masculino: "#2DD4BF",              // acento turquesa del logo oficial (evita colisión con los morados de Fútbol/Mercadeo)
+  femenino: "#F472B6",
+} as const;
+```
+
+Ningún componente define un color de categoría o de género fuera de este archivo (mismo
+principio de fuente única que `/lib/categories.ts`, aplicado a diseño en vez de a datos).

@@ -143,6 +143,20 @@ paso que el cambio se refleje en la vista pública.
 - **FR-016**: El sistema MUST impedir que un visitante sin sesión iniciada cree, edite o
   elimine actividades, incluso si intenta invocar la funcionalidad directamente (no solo
   ocultando el botón en la interfaz).
+- **FR-017**: La interfaz pública y administrativa MUST proyectar la identidad de NEXOS como
+  periódico estudiantil — creativa, dinámica y visualmente atractiva — y MUST NOT usar
+  tipografías, iconografía o tratamientos visuales que evoquen un producto tecnológico
+  genérico o futurista (sin fuentes "tech" tipo monospace/geométricas de dashboard, sin
+  gradientes neón ni glassmorphism).
+- **FR-018**: Cada categoría MUST tener un color de marca coherente y consistente en todo el
+  sitio: Talento Humano (DH) = verde, Edición = azul, Mercadeo = morado, RRPP = rojo; General
+  y Deportes - Fútbol derivan su color de los logos oficiales de NEXOS ya provistos en
+  `public/brand/` (resuelto — ver `research.md` §8). Deportes - Vóley y Deportes - Básquet
+  MUST derivar su color de sus propios escudos/logos cuando existan
+  ([NEEDS ASSET: `public/brand/sports/voley.png`, `public/brand/sports/basquet.png`] —
+  mientras tanto usan un color neutro temporal, no uno definitivo).
+- **FR-019**: Todo uso de color como distintivo (color de categoría, etiqueta de género) MUST
+  ir siempre acompañado de una etiqueta de texto visible — el color nunca es la única señal.
 
 ### Key Entities
 
@@ -153,6 +167,9 @@ paso que el cambio se refleje en la vista pública.
 - **Directivo (Directive User)**: una de las seis personas responsables de un área (General,
   Deportes, Edición, Mercadeo, RRPP, Talento Humano), con credenciales de acceso al panel
   administrativo y permiso para gestionar actividades.
+- **Activo de marca (Brand Asset)**: archivo de logo oficial (general o por disciplina
+  deportiva) provisto por NEXOS, fuente de la paleta de colores del sitio para las
+  categorías que no tienen color fijo asignado (General, Deportes).
 
 ## Success Criteria *(mandatory)*
 
@@ -172,6 +189,9 @@ paso que el cambio se refleje en la vista pública.
   Talento Humano).
 - **SC-006**: Las actividades marcadas como "obligatorio" son identificables visualmente por un
   visitante en menos de 1 segundo de ver la tarjeta/fila, sin necesidad de abrir el detalle.
+- **SC-007**: En una revisión informal con miembros de NEXOS, la interfaz se percibe como
+  coherente con la identidad de un periódico estudiantil (creativa, dinámica, propia), no
+  como un panel o dashboard genérico de software.
 
 ## Assumptions
 
@@ -183,10 +203,13 @@ paso que el cambio se refleje en la vista pública.
   contrario más adelante.
 - Las fechas/horas se muestran al visitante en su zona horaria local (el sistema las guarda con
   zona horaria explícita); no se asume una única zona horaria fija para todo el grupo.
-- La categoría "Cumpleaños" y otras categorías presentes en la v1 del proyecto (RRPP, Edición,
-  "Merc y DH" combinados) quedan fuera de alcance de esta versión: la v2 usa exactamente las 6
-  categorías fijas descritas en el input, con Mercadeo y Talento Humano (DH) como áreas
-  separadas.
+- **Confirmado**: "Cumpleaños" queda excluido a propósito — NEXOS ya no quiere documentar
+  cumpleaños en el calendario. La v2 usa exactamente las 6 categorías fijas del input, con
+  Mercadeo y Talento Humano (DH) como áreas separadas (a diferencia del "Merc y DH" combinado
+  de la v1).
+- Los colores de General y Deportes - Fútbol ya se extrajeron de los archivos reales en
+  `public/brand/` (ver `public/brand/README.md` y `research.md` §8); Vóley y Básquet siguen
+  con un color temporal/neutro hasta que NEXOS provea sus propios escudos.
 - Un visitante puede ver actividades pasadas (historial), no solo futuras; no se especificó lo
   contrario y el campo `result` solo tiene sentido si los partidos pasados siguen siendo
   visibles.

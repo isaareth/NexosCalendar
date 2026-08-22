@@ -72,5 +72,68 @@
 - **Alternatives considered**: Flujo de invitación por correo vía Supabase Auth (viable a
   futuro, pero fuera de alcance del spec 001 — se deja como posible feature siguiente).
 
-**Output**: Todos los `NEEDS CLARIFICATION` del Technical Context quedan resueltos por las
-decisiones anteriores.
+## 7. Tipografía e identidad visual editorial (Principio VI)
+
+- **Decision**: Usar un pairing tipográfico editorial (serif de display para
+  titulares/masthead, ej. Google Fonts "Playfair Display" o "Lora" — cargadas vía
+  `next/font/google`, sin CDN externo — + una sans-serif neutra y cálida para cuerpo de
+  texto, ej. "Source Sans 3"). shadcn/ui se re-temátiza (radios más orgánicos, sin sombras
+  tipo "card" de dashboard, sin fuente monospace por defecto) en vez de usarse con su
+  configuración por defecto.
+- **Rationale**: shadcn/ui "de fábrica" (Inter + esquinas rectas + sombras sutiles) lee como
+  un dashboard SaaS genérico, justo lo que el Principio VI prohíbe. Una serif de titular
+  evoca un periódico/masthead sin requerir ilustración custom cara de mantener.
+- **Alternatives considered**: Fuente "tech" tipo Space Grotesk/JetBrains Mono (rechazada,
+  es la estética que se quiere evitar); diseño 100% custom sin shadcn/ui (rechazado, viola
+  Principio V — reinventar componentes accesibles desde cero no se justifica).
+
+## 8. Paleta de colores por categoría
+
+- **Decision**: Los 4 colores de departamento son fijos y ya están dados por NEXOS (DH =
+  verde, Edición = azul, Mercadeo = morado, RRPP = rojo). `General` y `Deportes - Fútbol` se
+  resolvieron por extracción manual (muestreo de color, no un pipeline automatizado) sobre
+  los archivos reales que NEXOS proveyó en `public/brand/`: `logo-nexos.jpg` (logo oficial) y
+  `sports/futbol.png` (escudo real de "NEXOS Fútbol Club"). `Deportes - Vóley` y
+  `Deportes - Básquet` siguen como `NEEDS ASSET` — no existe un escudo propio de esas
+  disciplinas todavía, así que no se inventa un color "definitivo" para ellas.
+- **Rationale**: Automatizar la extracción de color de una imagen (k-means sobre píxeles,
+  etc.) es una dependencia y un paso de build extra para un valor que se define una sola vez
+  y casi no cambia — violaría Principio V (Simplicidad). Un muestreo puntual sobre el PNG/JPG
+  real es suficiente y más confiable que inventar un hex de memoria.
+- **Colisión detectada y resuelta**: el escudo real de Fútbol es morado/lavanda
+  (`#73528E`/`#E4BEFC`), y Mercadeo también es morado por instrucción explícita — ambos son
+  morados "reales" (uno heredado de un escudo de 1987, el otro un color de departamento
+  fijo) y no se pueden fusionar ni reasignar; se diferencian por temperatura de tono (Fútbol
+  = morado-azulado/lavanda, Mercadeo = morado-rojizo/magenta) más FR-019 (el color nunca es
+  la única señal). Lo que sí se ajustó: la v1 usaba morado para la etiqueta de género
+  "Masculino", lo que habría sumado un tercer uso de morado — se movió a turquesa
+  (`#2DD4BF`), tomado del propio acento del logo oficial de NEXOS (el triángulo dentro de la
+  "O"), en vez de inventar un color ajeno a la marca.
+- **`logo-nexos-creativo.jpg`** (versión artística del logo, fondo negro, tonos tierra:
+  verde salvia, ladrillo, arena) se trata como asset **decorativo**, no como fuente de color
+  de categoría — informa en cambio la paleta secundaria "editorial cálida" (fondos tipo
+  papel, grises cálidos) que refuerza el Principio VI en vez de un blanco/gris frío de
+  dashboard.
+- **Alternatives considered**: Extracción automática de paleta (ej. `node-vibrant`) —
+  rechazada por sobre-ingeniería; reutilizar el mismo morado para género y Mercadeo
+  (rechazado, aumenta la ambigüedad justo donde el usuario pidió coherencia); inventar un
+  color de marca para Vóley/Básquet sin asset real (rechazado — contradice la instrucción
+  explícita del usuario de extraer los colores de la imagen real, no inventarlos).
+
+| Categoría / uso | Color | Hex | Fuente |
+|---|---|---|---|
+| Talento Humano (DH) | Verde | `#16A34A` | Instrucción explícita del usuario |
+| Edición | Azul | `#2563EB` | Instrucción explícita del usuario |
+| Mercadeo | Morado (rojizo/magenta) | `#9333EA` | Instrucción explícita + ajustado para distinguirse de Fútbol |
+| RRPP | Rojo | `#DC2626` | Instrucción explícita del usuario |
+| General | Azul marino | `#234090` | Extraído de `public/brand/logo-nexos.jpg` |
+| Deportes - Fútbol | Morado (azulado/lavanda) | `#73528E` (tinte claro `#E4BEFC`) | Extraído de `public/brand/sports/futbol.png` |
+| Deportes - Vóley | *(pendiente de logo)* | `#78716C` (gris cálido temporal) | `NEEDS ASSET` — falta `sports/voley.png` |
+| Deportes - Básquet | *(pendiente de logo)* | `#78716C` (gris cálido temporal) | `NEEDS ASSET` — falta `sports/basquet.png` |
+| Género — Masculino | Turquesa | `#2DD4BF` | Acento del logo oficial (`logo-nexos.jpg`), reemplaza el morado de v1 para evitar la colisión |
+| Género — Femenino | Rosado/coral | `#F472B6` | Sin cambios respecto a v1, sin colisión |
+
+**Output**: Todos los `NEEDS CLARIFICATION` del Technical Context quedan resueltos.
+Quedan dos `NEEDS ASSET` explícitos y acotados (color final de Vóley y Básquet),
+documentados también en `spec.md` FR-018 — bloquean solo esas dos filas de `lib/theme.ts`,
+no el resto de la implementación.

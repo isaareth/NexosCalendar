@@ -1,10 +1,12 @@
 <!--
 Sync Impact Report
-- Version change: (none) → 1.0.0
-- Modified principles: n/a (initial ratification)
-- Added sections: Core Principles (I-V), Technology Constraints, Development Workflow, Governance
+- Version change: 1.0.0 → 1.1.0
+- Modified principles: none
+- Added principles: VI. Editorial Identity, Not Tech Aesthetic
+- Added sections: Brand Assets (under Technology Constraints)
 - Removed sections: none
-- Deferred TODOs: none
+- Deferred TODOs: exact hex values for General/Deportes categories pending logo files in
+  public/brand/ (see Principle VI and specs/001-nexos-agenda/spec.md FR-017)
 -->
 # NEXOS Agenda Constitution
 
@@ -61,16 +63,41 @@ before or alongside the code change, not left implicit in a PR description.
 **Rationale**: This project is deliberately run as spec-driven development; specs and
 code drifting apart defeats the point of the methodology.
 
+### VI. Editorial Identity, Not Tech Aesthetic
+NEXOS is a student newspaper/group, not a tech product. The interface MUST read as
+creative, dynamic, and warm — editorial in spirit — and MUST NOT use typography, iconography,
+color treatments, or layout patterns that evoke a generic tech/SaaS dashboard or a
+futuristic aesthetic (no monospace/geometric "tech" display fonts, no neon gradients or
+glassmorphism, no glowing/neon accents). Brand colors MUST be coherent with the official
+NEXOS assets in `public/brand/` (extracted from the logo, not invented ad hoc), combined with
+the fixed department colors already assigned: Talento Humano (DH) = verde, Edición = azul,
+Mercadeo = morado, RRPP = rojo. Any color-coding (department color, gender tag) MUST always
+be paired with a visible text label — color is never the only signal, both for
+accessibility and to avoid ambiguity between different color systems (e.g. gender tags and
+department colors both using a shade of purple).
+**Rationale**: A dashboard-looking calendar would misrepresent what NEXOS is; the group
+explicitly wants the public site to feel like an extension of their newspaper identity, not
+a generic internal tool.
+
 ## Technology Constraints
 
 - **Framework**: Next.js 14+ (App Router, Server Actions).
-- **UI**: Tailwind CSS + shadcn/ui + Lucide Icons.
+- **UI**: Tailwind CSS + shadcn/ui (re-themed — colors, radius, and typography overridden to
+  match Principle VI, not left at shadcn's default look) + Lucide Icons.
 - **Data/Auth**: Supabase (PostgreSQL + Supabase Auth + RLS). No other database or auth
   provider may be introduced without a constitution amendment.
 - **Hosting**: Vercel (app) + Supabase Cloud (data/auth), both on free tier.
 - **Language**: TypeScript in strict mode across `/app`, `/lib`, and `/components`.
 - Six directive accounts are provisioned in Supabase Auth by an administrator (not via
   public self-registration); the app has no public sign-up flow.
+
+### Brand Assets
+
+- Official logo files live in `public/brand/` (`logo-nexos.png`, `public/brand/sports/*`).
+- Color tokens are derived from those files plus the four fixed department colors, and MUST
+  be defined in exactly one place (`tailwind.config.ts` theme extension / a `lib/theme.ts`
+  token file) — consumed by both public and admin UI, mirroring Principle II's
+  single-source-of-truth rule but applied to design tokens instead of business data.
 
 ## Development Workflow
 
@@ -94,4 +121,4 @@ this file. Any PR or task that conflicts with a principle here must either be re
 justified with an explicit, reviewed exception recorded in the relevant plan's Complexity
 Tracking section.
 
-**Version**: 1.0.0 | **Ratified**: 2026-08-22 | **Last Amended**: 2026-08-22
+**Version**: 1.1.0 | **Ratified**: 2026-08-22 | **Last Amended**: 2026-08-22
