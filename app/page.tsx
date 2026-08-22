@@ -6,6 +6,7 @@ import { Countdown } from "./(public)/components/Countdown";
 import { CalendarView } from "./(public)/components/CalendarView";
 import { Filters } from "./(public)/components/Filters";
 import { Ticker } from "./(public)/components/Ticker";
+import { LogoIntro } from "./(public)/components/LogoIntro";
 import { getNextEvent, getUpcomingEvents, listEvents } from "@/lib/queries";
 import { isCategory } from "@/lib/categories";
 import type { EventFilters } from "@/lib/types";
@@ -36,6 +37,8 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <LogoIntro />
+
       <header className="sticky top-0 z-10 border-b border-border bg-card/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <div className="flex items-center gap-3">

@@ -162,8 +162,12 @@ paso que el cambio se refleje en la vista pública.
   del filtro activo — igual que el countdown de FR-002), para reforzar la sensación de
   calendario "vivo". La animación MUST respetar `prefers-reduced-motion` (se detiene si el
   visitante lo tiene activado) y MUST pausarse al pasar el mouse por encima.
-
-### Key Entities
+- **FR-021**: Al cargar la vista pública, el sistema MUST mostrar una animación de entrada
+  del logo de NEXOS (~2 segundos, zoom-out + rotación hacia la esquina superior izquierda del
+  encabezado) antes de asentarse en su posición final. MUST respetar `prefers-reduced-motion`
+  (se omite por completo, sin retrasar la carga de la página).
+- **FR-022**: El panel administrativo MUST ofrecer, junto al botón de cerrar sesión, un
+  acceso directo de vuelta a la vista pública del calendario.
 
 - **Actividad (Event)**: título, descripción, información extra (opcional), categoría (una de
   las 6 fijas, con Deportes subdividida en Fútbol/Vóley/Básquet), género (solo aplica a Fútbol;
