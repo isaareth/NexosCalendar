@@ -56,7 +56,7 @@ export default async function Home({ searchParams }: HomeProps) {
             </div>
           </div>
 
-          <Button variant="outline" size="sm" render={<Link href="/admin/login" />}>
+          <Button variant="outline" size="sm" nativeButton={false} render={<Link href="/admin/login" />}>
             <LayoutDashboard className="size-4" />
             <span className="hidden sm:inline">Panel administrativo</span>
             <span className="sm:hidden">Admin</span>

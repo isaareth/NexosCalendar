@@ -13,7 +13,7 @@ export default async function AdminDashboardPage() {
       <header className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-heading text-2xl">Panel administrativo</h1>
         <div className="flex gap-2">
-          <Button variant="outline" render={<Link href="/" />}>
+          <Button variant="outline" nativeButton={false} render={<Link href="/" />}>
             <CalendarDays className="size-4" />
             Ver calendario
           </Button>
