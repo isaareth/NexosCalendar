@@ -53,7 +53,7 @@ tipografía editorial ya cargada.
 - [X] T009 Escribir `supabase/schema.sql` con la tabla `events`, los tipos `event_character` /
       `sports_gender`, los `CHECK` constraints y las políticas RLS descritas en
       [data-model.md](data-model.md)
-- [ ] T010 Aplicar `supabase/schema.sql` al proyecto Supabase (SQL Editor del dashboard o
+- [X] T010 Aplicar `supabase/schema.sql` al proyecto Supabase (SQL Editor del dashboard o
       `supabase db push`) y confirmar que RLS queda habilitado
 - [X] T011 [P] Crear `lib/categories.ts` con `CATEGORY_ORDER` y `genderAppliesTo()` (fuente
       única de la Constitución, Principio II)
