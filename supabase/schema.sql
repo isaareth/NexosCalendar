@@ -6,6 +6,7 @@ create extension if not exists "pgcrypto";
 
 create type event_character as enum ('obligatorio', 'voluntario');
 create type sports_gender as enum ('masculino', 'femenino', 'no_aplica');
+create type sports_outcome as enum ('ganado', 'perdido', 'empate');
 
 create table if not exists events (
   id uuid primary key default gen_random_uuid(),
@@ -19,6 +20,7 @@ create table if not exists events (
   end_time timestamptz,
   location varchar(255) not null,
   result varchar(100),
+  outcome sports_outcome,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
 
@@ -31,6 +33,11 @@ create table if not exists events (
   -- Regla de negocio (spec 001-nexos-agenda FR-005): género solo aplica a Fútbol.
   constraint events_gender_only_futbol check (
     category = 'Deportes - Fútbol' or gender = 'no_aplica'
+  ),
+
+  -- Regla de negocio (FR-023): "ganado/perdido/empate" solo aplica a categorías deportivas.
+  constraint events_outcome_only_sports check (
+    category like 'Deportes - %' or outcome is null
   ),
 
   constraint events_end_after_start check (

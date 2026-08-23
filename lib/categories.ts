@@ -25,6 +25,11 @@ export function genderAppliesTo(category: Category): boolean {
   return category === "Deportes - Fútbol";
 }
 
+/** El marcador y "ganado/perdido/empate" (FR-023) solo aplican a categorías deportivas. */
+export function outcomeAppliesTo(category: Category): boolean {
+  return category.startsWith("Deportes - ");
+}
+
 const CATEGORY_LABELS: Record<Category, string> = {
   General: "General",
   "Deportes - Fútbol": "Deportes · Fútbol",

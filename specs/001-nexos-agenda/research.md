@@ -175,5 +175,29 @@
   innecesaria para dos transiciones CSS; animar el logo oficial en vez del creativo
   (rechazado, el usuario pidió específicamente el logo creativo para este momento).
 
+## 11. Resultado de partido explícito (ganado/perdido/empate)
+
+- **Decision**: Se agrega la columna `outcome` (`sports_outcome` enum: `ganado`/`perdido`/
+  `empate`, nullable) a `events`, separada del `result` de texto libre existente. Se llena
+  con un selector explícito en `EventForm` (chips Ganado/Perdido/Empate), no se infiere
+  parseando el texto del marcador. Solo aplica a categorías deportivas
+  (`CHECK category LIKE 'Deportes - %' OR outcome IS NULL`, igual patrón que la regla de
+  género). Como el proyecto Supabase del usuario ya existía, se agrega
+  `supabase/migrations/001_add_outcome.sql` además de actualizar `schema.sql` (que solo
+  cubre instalaciones nuevas, `CREATE TABLE IF NOT EXISTS` no altera una tabla existente).
+- **Rationale**: Parsear "NEXOS 3 - 1 Rival" para inferir ganado/perdido es frágil (depende
+  de que NEXOS siempre aparezca en la misma posición del texto, de que el formato no
+  cambie) y no cubre empates de forma confiable. Un campo explícito, elegido por el
+  directivo al momento de cargar el resultado, es la fuente de verdad — más simple y menos
+  propenso a errores (Principio V).
+- **`null` explícito, no `undefined`, al validar**: `validateEventInput` devuelve
+  `outcome: null` (no `undefined`) cuando no aplica, para que un `UPDATE` limpie el valor
+  anterior si la categoría de un evento existente cambia de deportiva a no deportiva — de
+  otro modo el cliente de Supabase omite la clave `undefined` del `PATCH`, el valor viejo
+  quedaría en la fila, y el `CHECK` fallaría en el próximo `UPDATE` que sí toque esa fila.
+- **Alternatives considered**: Inferir del texto de `result` (rechazado, frágil); agregar
+  `ganado`/`perdido` como parte del enum de `character` o de `category` (rechazado, son
+  conceptos distintos — mezclarlos rompería FR-004/FR-007).
+
 **Output**: Todos los `NEEDS CLARIFICATION` del Technical Context quedan resueltos. No
 quedan `NEEDS ASSET` pendientes.

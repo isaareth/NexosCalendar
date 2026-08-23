@@ -2,7 +2,7 @@
 
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { CalendarDays, MapPin, Trophy } from "lucide-react";
+import { CalendarDays, MapPin, Trophy, XCircle, Equal } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -20,8 +20,16 @@ interface EventModalProps {
   onClose: () => void;
 }
 
+const OUTCOME_STYLE = {
+  ganado: { label: "Ganado", icon: Trophy, className: "bg-[#16A34A]/15 text-[#16A34A]" },
+  perdido: { label: "Perdido", icon: XCircle, className: "bg-destructive/15 text-destructive" },
+  empate: { label: "Empate", icon: Equal, className: "bg-muted text-muted-foreground" },
+} as const;
+
 /** Modal de detalle de actividad (FR-008). */
 export function EventModal({ event, onClose }: EventModalProps) {
+  const OutcomeIcon = event?.outcome ? OUTCOME_STYLE[event.outcome].icon : null;
+
   return (
     <Dialog open={event !== null} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md">
@@ -81,6 +89,15 @@ export function EventModal({ event, onClose }: EventModalProps) {
                 <div className="flex items-center gap-2 rounded-lg bg-accent/15 p-3 font-semibold text-accent-foreground">
                   <Trophy className="size-4 shrink-0" aria-hidden />
                   <span>{event.result}</span>
+                </div>
+              )}
+
+              {event.outcome && OutcomeIcon && (
+                <div
+                  className={`flex w-fit items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold ${OUTCOME_STYLE[event.outcome].className}`}
+                >
+                  <OutcomeIcon className="size-4 shrink-0" aria-hidden />
+                  {OUTCOME_STYLE[event.outcome].label}
                 </div>
               )}
             </div>

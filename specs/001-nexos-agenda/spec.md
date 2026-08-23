@@ -172,11 +172,21 @@ paso que el cambio se refleje en la vista pública.
   página).
 - **FR-022**: El panel administrativo MUST ofrecer, junto al botón de cerrar sesión, un
   acceso directo de vuelta a la vista pública del calendario.
+- **FR-023**: Para actividades de categoría deportiva (Fútbol, Vóley, Básquet), el panel
+  administrativo MUST permitir registrar, además del marcador en texto libre, si NEXOS
+  MUST poder marcar el resultado como "ganado", "perdido" o "empate" de forma explícita
+  (no MUST inferirse automáticamente del texto del marcador). Este campo no aplica a
+  categorías no deportivas. El resultado registrado MUST mostrarse de forma clara
+  (etiqueta + color, no solo texto) tanto en el formulario administrativo como en el modal
+  de detalle público.
+
+### Key Entities
 
 - **Actividad (Event)**: título, descripción, información extra (opcional), categoría (una de
   las 6 fijas, con Deportes subdividida en Fútbol/Vóley/Básquet), género (solo aplica a Fútbol;
   "no aplica" en el resto), carácter (obligatorio/voluntario), fecha/hora de inicio, fecha/hora
-  de fin (opcional), lugar, resultado (opcional, texto libre).
+  de fin (opcional), lugar, marcador (opcional, texto libre), resultado del partido (opcional,
+  solo deportes: ganado/perdido/empate).
 - **Directivo (Directive User)**: una de las seis personas responsables de un área (General,
   Deportes, Edición, Mercadeo, RRPP, Talento Humano), con credenciales de acceso al panel
   administrativo y permiso para gestionar actividades.

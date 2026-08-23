@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { validateEventInput } from "@/lib/validators";
+import type { EventOutcome } from "@/lib/types";
 
 const base = {
   title: "Partido vs. Rival",
@@ -53,6 +54,37 @@ describe("validateEventInput", () => {
       ...base,
       // @ts-expect-error -- probando una categoría fuera de CATEGORY_ORDER
       category: "Cumpleaños",
+    });
+    expect(result.valid).toBe(false);
+  });
+
+  it("acepta outcome en una categoría deportiva (FR-023)", () => {
+    const result = validateEventInput({ ...base, outcome: "ganado" });
+    expect(result.valid).toBe(true);
+    expect(result.data?.outcome).toBe("ganado");
+  });
+
+  it("normaliza outcome a null fuera de categorías deportivas, incluso si se envía uno", () => {
+    const result = validateEventInput({
+      ...base,
+      category: "Edición",
+      character: "obligatorio",
+      outcome: "ganado",
+    });
+    expect(result.valid).toBe(true);
+    expect(result.data?.outcome).toBeNull();
+  });
+
+  it("outcome queda en null (no undefined) cuando no se elige, para poder limpiar en un UPDATE", () => {
+    const result = validateEventInput(base);
+    expect(result.valid).toBe(true);
+    expect(result.data?.outcome).toBeNull();
+  });
+
+  it("rechaza un outcome que no es ganado/perdido/empate", () => {
+    const result = validateEventInput({
+      ...base,
+      outcome: "victoria" as EventOutcome,
     });
     expect(result.valid).toBe(false);
   });

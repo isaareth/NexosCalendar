@@ -1,8 +1,13 @@
-import { genderAppliesTo, isCategory } from "./categories";
+import { genderAppliesTo, isCategory, outcomeAppliesTo } from "./categories";
 import type { EventInput } from "./types";
 
-export type ValidatedEventInput = Omit<EventInput, "gender"> & {
+const VALID_OUTCOMES = ["ganado", "perdido", "empate"];
+
+export type ValidatedEventInput = Omit<EventInput, "gender" | "outcome"> & {
   gender: "masculino" | "femenino" | "no_aplica";
+  // null explícito (no undefined) para que un UPDATE limpie el valor anterior si la
+  // categoría deja de ser deportiva — si no, el CHECK events_outcome_only_sports fallaría.
+  outcome: EventInput["outcome"] | null;
 };
 
 export type ValidationResult =
@@ -43,6 +48,10 @@ export function validateEventInput(input: Partial<EventInput>): ValidationResult
   const location = input.location?.trim();
   if (!location) errors.push("El lugar es obligatorio.");
 
+  if (input.outcome && !VALID_OUTCOMES.includes(input.outcome)) {
+    errors.push('El resultado del partido debe ser "ganado", "perdido" o "empate".');
+  }
+
   if (errors.length > 0 || !input.category || !isCategory(input.category)) {
     return { valid: false, errors };
   }
@@ -65,6 +74,7 @@ export function validateEventInput(input: Partial<EventInput>): ValidationResult
       end_time: input.end_time || undefined,
       location: location!,
       result: input.result?.trim() || undefined,
+      outcome: outcomeAppliesTo(input.category) ? (input.outcome ?? null) : null,
     },
   };
 }

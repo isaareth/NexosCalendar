@@ -2,6 +2,7 @@ import type { Category } from "./categories";
 
 export type EventCharacter = "obligatorio" | "voluntario";
 export type EventGender = "masculino" | "femenino" | "no_aplica";
+export type EventOutcome = "ganado" | "perdido" | "empate";
 
 export interface Event {
   id: string;
@@ -15,6 +16,7 @@ export interface Event {
   end_time: string | null; // ISO 8601
   location: string;
   result: string | null;
+  outcome: EventOutcome | null;
   created_at: string;
   updated_at: string;
 }
@@ -30,6 +32,7 @@ export interface EventInput {
   end_time?: string;
   location: string;
   result?: string;
+  outcome?: EventOutcome;
 }
 
 export interface EventFilters {

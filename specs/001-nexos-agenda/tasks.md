@@ -193,6 +193,13 @@ vista pública sin pasos manuales.
       Vóley/Básquet — Research §9) consumidos por `CalendarView`, `EventModal` y `Ticker`;
       reemplazo de la animación de entrada por `NewspaperIntro.tsx` (portada de periódico
       con `logo-nexos-creativo.jpg`, Research §10)
+- [X] T046 [US2] Retrofit (FR-023): columna `outcome` (tipo `sports_outcome`) en
+      `supabase/schema.sql` + `supabase/migrations/001_add_outcome.sql`; `outcomeAppliesTo()`
+      en `lib/categories.ts`; normalización a `null` en `lib/validators.ts` (Research §11);
+      sección "Marcador"/"¿Cómo quedó NEXOS?" en `EventForm.tsx`, solo visible para
+      categorías deportivas; badge Ganado/Perdido/Empate en `EventModal.tsx`
+- [ ] T047 Aplicar `supabase/migrations/001_add_outcome.sql` al proyecto Supabase real del
+      usuario (pendiente — requiere su cuenta, igual que T010)
 
 ---
 

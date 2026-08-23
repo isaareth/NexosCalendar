@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Trophy, XCircle, Equal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,9 +12,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CATEGORY_ORDER, categoryLabel, genderAppliesTo, isCategory } from "@/lib/categories";
+import {
+  CATEGORY_ORDER,
+  categoryLabel,
+  genderAppliesTo,
+  isCategory,
+  outcomeAppliesTo,
+} from "@/lib/categories";
 import { createEvent, updateEvent } from "../actions";
-import type { Event, EventInput } from "@/lib/types";
+import type { Event, EventInput, EventOutcome } from "@/lib/types";
+
+const OUTCOME_OPTIONS: { value: EventOutcome; label: string; icon: typeof Trophy }[] = [
+  { value: "ganado", label: "Ganado", icon: Trophy },
+  { value: "perdido", label: "Perdido", icon: XCircle },
+  { value: "empate", label: "Empate", icon: Equal },
+];
 
 const CATEGORY_ITEMS: Record<string, string> = Object.fromEntries(
   CATEGORY_ORDER.map((cat) => [cat, categoryLabel(cat)]),
@@ -42,10 +55,12 @@ export function EventForm({ event, onSuccess, onCancel }: EventFormProps) {
     event?.gender && event.gender !== "no_aplica" ? event.gender : "",
   );
   const [character, setCharacter] = useState<string>(event?.character ?? "");
+  const [outcome, setOutcome] = useState<string>(event?.outcome ?? "");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
   const showGender = isCategory(category) && genderAppliesTo(category);
+  const showScore = isCategory(category) && outcomeAppliesTo(category);
 
   async function handleSubmit(formData: FormData) {
     setPending(true);
@@ -65,7 +80,8 @@ export function EventForm({ event, onSuccess, onCancel }: EventFormProps) {
         ? new Date(String(formData.get("end_time"))).toISOString()
         : undefined,
       location: String(formData.get("location") ?? ""),
-      result: String(formData.get("result") ?? "") || undefined,
+      result: showScore ? String(formData.get("result") ?? "") || undefined : undefined,
+      outcome: showScore && outcome ? (outcome as EventOutcome) : undefined,
     };
 
     const result = event ? await updateEvent(event.id, input) : await createEvent(input);
@@ -91,7 +107,7 @@ export function EventForm({ event, onSuccess, onCancel }: EventFormProps) {
           <Select
             items={CATEGORY_ITEMS}
             value={category}
-            onValueChange={(v) => { setCategory(v as string); setGender(""); }}
+            onValueChange={(v) => { setCategory(v as string); setGender(""); setOutcome(""); }}
           >
             <SelectTrigger>
               <SelectValue />
@@ -184,10 +200,48 @@ export function EventForm({ event, onSuccess, onCancel }: EventFormProps) {
         />
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="result">Resultado (opcional)</Label>
-        <Input id="result" name="result" defaultValue={event?.result ?? ""} placeholder="Ej. NEXOS 3 - 1 Rival" />
-      </div>
+      {showScore && (
+        <div className="flex flex-col gap-2 rounded-lg border border-border bg-muted/40 p-3">
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="result">Marcador (opcional, solo si el partido ya se jugó)</Label>
+            <Input
+              id="result"
+              name="result"
+              defaultValue={event?.result ?? ""}
+              placeholder="Ej. NEXOS 3 - 1 Rival"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label>¿Cómo quedó NEXOS?</Label>
+            <div className="flex flex-wrap gap-2">
+              {OUTCOME_OPTIONS.map(({ value, label, icon: Icon }) => {
+                const active = outcome === value;
+                return (
+                  <button
+                    key={value}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => setOutcome(active ? "" : value)}
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
+                      active
+                        ? value === "ganado"
+                          ? "border-transparent bg-[#16A34A] text-white"
+                          : value === "perdido"
+                            ? "border-transparent bg-destructive text-white"
+                            : "border-transparent bg-muted-foreground text-white"
+                        : "border-border bg-transparent text-foreground hover:bg-muted"
+                    }`}
+                  >
+                    <Icon className="size-4" />
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
       {error && (
         <p role="alert" className="text-sm font-medium text-destructive">

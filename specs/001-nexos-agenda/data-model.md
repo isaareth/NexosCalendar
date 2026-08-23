@@ -2,7 +2,7 @@
 
 ## Entity: Event (`events`)
 
-Corresponde a "Actividad" en el spec (FR-001 a FR-010, FR-014).
+Corresponde a "Actividad" en el spec (FR-001 a FR-010, FR-014, FR-023).
 
 | Campo | Tipo | Reglas |
 |---|---|---|
@@ -16,7 +16,8 @@ Corresponde a "Actividad" en el spec (FR-001 a FR-010, FR-014).
 | `start_time` | `timestamptz` | Requerido (FR-014); determina el "próximo evento" del countdown (FR-002) |
 | `end_time` | `timestamptz` | Opcional; si está presente, `end_time >= start_time` |
 | `location` | `varchar(255)` | Requerido (FR-014) |
-| `result` | `varchar(100)` | Opcional, texto libre (FR-010) |
+| `result` | `varchar(100)` | Opcional, texto libre (FR-010), ej. "NEXOS 3 - 1 Rival" |
+| `outcome` | `sports_outcome` (`ganado`\|`perdido`\|`empate`) o `NULL` | Opcional; solo puede ser distinto de `NULL` si `category` empieza con `'Deportes - '` (FR-023); NO se infiere de `result` — es un campo explícito |
 | `created_at` / `updated_at` | `timestamptz` | `DEFAULT now()`; `updated_at` se actualiza en cada UPDATE |
 
 **Constraints derivados de las reglas de negocio**:
@@ -30,8 +31,15 @@ CHECK (category IN (
 
 CHECK (category = 'Deportes - Fútbol' OR gender = 'no_aplica')
 
+CHECK (category LIKE 'Deportes - %' OR outcome IS NULL)
+
 CHECK (end_time IS NULL OR end_time >= start_time)
 ```
+
+**Migración**: un proyecto Supabase creado antes de FR-023 necesita
+[supabase/migrations/001_add_outcome.sql](../../supabase/migrations/001_add_outcome.sql) —
+`schema.sql` por sí solo no altera una tabla `events` que ya existe (`CREATE TABLE IF NOT
+EXISTS` no toca columnas).
 
 **No hay máquina de estados**: un Event no transiciona entre estados explícitos; `result`
 simplemente se llena o no, y `start_time` en el pasado es válido (edge case del spec: registrar
