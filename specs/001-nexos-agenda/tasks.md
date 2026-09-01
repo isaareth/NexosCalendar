@@ -200,6 +200,10 @@ vista pública sin pasos manuales.
       categorías deportivas; badge Ganado/Perdido/Empate en `EventModal.tsx`
 - [ ] T047 Aplicar `supabase/migrations/001_add_outcome.sql` al proyecto Supabase real del
       usuario (pendiente — requiere su cuenta, igual que T010)
+- [X] T048 [US1] Bug fix: `CalendarView.eventsByDay` solo indexaba el evento en el día de
+      `start_time`, así que un evento multi-día (ej. "Diagnósticos" toda la semana) no
+      aparecía en los días intermedios. Ahora se indexa en cada día entre `start_time` y
+      `end_time` (tope de 31 días como salvaguarda ante datos mal cargados)
 
 ---
 

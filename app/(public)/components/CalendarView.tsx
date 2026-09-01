@@ -4,12 +4,14 @@ import { useMemo, useState } from "react";
 import {
   addMonths,
   addWeeks,
+  differenceInCalendarDays,
   eachDayOfInterval,
   endOfMonth,
   endOfWeek,
   format,
   isSameMonth,
   isToday,
+  startOfDay,
   startOfMonth,
   startOfWeek,
   subMonths,
@@ -40,13 +42,27 @@ export function CalendarView({ events }: { events: Event[] }) {
     return eachDayOfInterval({ start, end });
   }, [cursor, viewMode]);
 
+  // Un evento con end_time en otro día (ej. "Diagnósticos" toda la semana) debe aparecer en
+  // CADA día que abarca, no solo en el de start_time — si no, el resto de la semana se ve
+  // vacía aunque la actividad siga corriendo.
   const eventsByDay = useMemo(() => {
     const map = new Map<string, Event[]>();
     for (const event of events) {
-      const key = format(new Date(event.start_time), "yyyy-MM-dd");
-      const list = map.get(key) ?? [];
-      list.push(event);
-      map.set(key, list);
+      const startDay = startOfDay(new Date(event.start_time));
+      const endDay = event.end_time ? startOfDay(new Date(event.end_time)) : startDay;
+      // Salvaguarda: un end_time muchísimo más lejos que start_time (dato mal cargado) no
+      // debe intentar pintar miles de celdas — se limita a 31 días.
+      const span =
+        differenceInCalendarDays(endDay, startDay) > 31
+          ? [startDay]
+          : eachDayOfInterval({ start: startDay, end: endDay });
+
+      for (const day of span) {
+        const key = format(day, "yyyy-MM-dd");
+        const list = map.get(key) ?? [];
+        list.push(event);
+        map.set(key, list);
+      }
     }
     return map;
   }, [events]);
